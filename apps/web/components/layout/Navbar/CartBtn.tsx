@@ -5,18 +5,19 @@ import { ShoppingCartIcon } from "lucide-react";
 import { Button } from "../../ui/Button";
 
 const CartBtn: React.FC = () => {
-  const cart = { total: 0 } satisfies Partial<CartSummary>; // Mock
+  const cart = { totalItems: 0 } satisfies Partial<CartSummary>; // Mock
 
   return (
-    <Button variant={"ghost"} size={"icon"}>
+    <Button variant={"ghost"} size={"icon"} asChild>
       <Link
         href="/cart"
+        aria-label="Cart"
         className="relative inline-flex size-8 items-center justify-center"
       >
         <ShoppingCartIcon size={22} />
-        {cart && cart.total > 0 && (
+        {cart && cart.totalItems > 0 && (
           <span className="absolute top-0 right-0 flex h-5 min-w-5 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red-500 px-1 text-[11px] leading-none font-semibold text-white ring-2 ring-white">
-            {cart.total}
+            {cart.totalItems}
           </span>
         )}
       </Link>
