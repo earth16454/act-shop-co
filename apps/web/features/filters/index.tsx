@@ -21,10 +21,7 @@ const FilterBar: React.FC = () => {
       <ColorsSection />
       <hr className="border-t-black/10" />
       <SizeSection />
-      <Button
-        type="button"
-        className="bg-black w-full rounded-full text-sm font-medium py-4 h-12"
-      >
+      <Button type="button" block className="py-4 h-12">
         Apply Filter
       </Button>
     </div>

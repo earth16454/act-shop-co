@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/Accordion";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
 
 const SIZE_OPTIONS = [
   "XX-Small",
@@ -35,19 +36,20 @@ const SizeSection: React.FC = () => {
           Size
         </AccordionTrigger>
         <AccordionContent className="pt-4 pb-0">
-          <div className="flex items-center flex-wrap">
+          <div className="flex items-center flex-wrap gap-2">
             {SIZE_OPTIONS.map((size, index) => (
-              <button
+              <Button
                 key={index}
                 type="button"
+                variant={selected === size ? "default" : "outline"}
                 className={cn([
-                  "bg-[#F0F0F0] m-1 flex items-center justify-center px-5 py-2.5 text-sm rounded-full max-h-9.75",
-                  selected === size && "bg-black font-medium text-white",
+                  "px-5 py-2.5",
+                  selected !== size && "bg-[#F0F0F0]",
                 ])}
                 onClick={() => handleSelectSize(size)}
               >
                 {size}
-              </button>
+              </Button>
             ))}
           </div>
         </AccordionContent>
