@@ -13,4 +13,3 @@ console.log(`Backend is running at http://localhost:${PORT}`);
 
 export { app };
 export type { App } from "./app";
-export type { CartSummary } from "./domains/cart/cart.biz";
