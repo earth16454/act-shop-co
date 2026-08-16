@@ -7,12 +7,11 @@ import { Button } from "@/components/ui/Button";
 import { ProductImage } from "@/features/products/components/ProductImage";
 import type { CartItem } from "../api/cart";
 import { useRemoveCartItem, useUpdateCartItem } from "../hooks/useCart";
+import { formatPrice } from "@/lib/utils";
 
 interface CartItemRowProps {
   item: CartItem;
 }
-
-const formatPrice = (price: number) => `$${price.toLocaleString("en-US")}`;
 
 export const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
   const updateItem = useUpdateCartItem();

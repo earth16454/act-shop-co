@@ -2,14 +2,13 @@ import React from "react";
 import type { Product } from "../api/products";
 import { ProductRating } from "./ProductRating";
 import { ProductImage } from "./ProductImage";
+import { formatPrice } from "@/lib/utils";
 
 interface ProductCardProps {
   product: Product;
   priority?: boolean;
   action?: React.ReactNode;
 }
-
-const formatPrice = (price: number) => `$${price.toLocaleString("en-US")}`;
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
