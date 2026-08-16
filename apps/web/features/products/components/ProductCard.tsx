@@ -34,26 +34,28 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         ) : null}
       </div>
 
-      <h2 className="line-clamp-2 text-base font-bold tracking-tight sm:text-lg">
-        {product.name}
-      </h2>
+      <div className="flex flex-1 flex-col pt-4">
+        <h2 className="line-clamp-2 text-base font-bold tracking-tight sm:text-lg">
+          {product.name}
+        </h2>
 
-      <ProductRating rating={product.rating} />
+        <ProductRating rating={product.rating} />
 
-      <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
-        <span className="text-xl font-bold xl:text-2xl">
-          {formatPrice(product.discountedPrice)}
-        </span>
-        {isDiscounted ? (
-          <>
-            <span className="text-xl font-bold text-neutral-400 line-through">
-              {formatPrice(product.price)}
-            </span>
-            <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-500">
-              -{product.percentageDiscount}%
-            </span>
-          </>
-        ) : null}
+        <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
+          <span className="text-xl font-bold xl:text-2xl">
+            {formatPrice(product.discountedPrice)}
+          </span>
+          {isDiscounted ? (
+            <>
+              <span className="text-xl font-bold text-neutral-400 line-through">
+                {formatPrice(product.price)}
+              </span>
+              <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-500">
+                -{product.percentageDiscount}%
+              </span>
+            </>
+          ) : null}
+        </div>
       </div>
     </article>
   );
