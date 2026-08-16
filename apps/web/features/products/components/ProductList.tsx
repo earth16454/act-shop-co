@@ -1,22 +1,15 @@
 "use client";
 
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { productsQueryOptions } from "../api/products";
 import { ProductGridSkeleton } from "./ProductGridSkeleton";
 import { ProductGrid } from "./ProductGrid";
 import { ErrorAlert } from "@/components/ui/ErrorAlert";
 import { NotFoundAlert } from "@/components/ui/NotFoundAlert";
 
 export const ProductList: React.FC = () => {
-  const productsQuery = {
-    isPending: false,
-    isError: false,
-    error: { message: "Unknown error" },
-    isFetching: false,
-    refetch: () => {},
-    data: {
-      items: [],
-    },
-  };
+  const productsQuery = useQuery(productsQueryOptions());
 
   if (productsQuery.isPending) return <ProductGridSkeleton />;
 
