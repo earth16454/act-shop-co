@@ -6,6 +6,7 @@ import {
   addCartItem,
   cartKeys,
   cartQueryOptions,
+  checkoutCart,
   removeCartItem,
   updateCartItem,
 } from "../api/cart";
@@ -43,6 +44,15 @@ export const useRemoveCartItem = () => {
 
   return useMutation({
     mutationFn: removeCartItem,
+    onSuccess: invalidateCart,
+  });
+};
+
+export const useCheckoutCart = () => {
+  const invalidateCart = useInvalidateCart();
+
+  return useMutation({
+    mutationFn: checkoutCart,
     onSuccess: invalidateCart,
   });
 };

@@ -5,6 +5,7 @@ import { api } from "@/lib/eden";
 
 export type CartSummary = Treaty.Data<typeof api.cart.get>;
 export type CartItem = CartSummary["items"][number];
+export type CheckoutResult = Treaty.Data<typeof api.cart.checkout.post>;
 
 type AddCartItemBody = NonNullable<Parameters<typeof api.cart.items.post>[0]>;
 type CartItemRoute = ReturnType<typeof api.cart.items>;
@@ -58,6 +59,12 @@ export const updateCartItem = async ({ id, ...body }: UpdateCartItemInput) => {
 
 export const removeCartItem = async (id: string) => {
   const { data, error } = await api.cart.items({ id }).delete();
+  if (error) throw new Error(errorMessage(error.value));
+  return data;
+};
+
+export const checkoutCart = async (): Promise<CheckoutResult> => {
+  const { data, error } = await api.cart.checkout.post();
   if (error) throw new Error(errorMessage(error.value));
   return data;
 };
