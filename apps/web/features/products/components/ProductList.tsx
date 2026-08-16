@@ -6,9 +6,14 @@ import { ProductGridSkeleton } from "./ProductGridSkeleton";
 import { ProductGrid } from "./ProductGrid";
 import { ErrorAlert } from "@/components/ui/ErrorAlert";
 import { NotFoundAlert } from "@/components/ui/NotFoundAlert";
+import type { ProductsQuery } from "../api/products";
 
-export const ProductList: React.FC = () => {
-  const { products, productsQuery, loadMoreRef } = useProducts();
+interface ProductListProps {
+  query: ProductsQuery;
+}
+
+export const ProductList: React.FC<ProductListProps> = ({ query }) => {
+  const { products, productsQuery, loadMoreRef } = useProducts(query);
 
   if (productsQuery.isPending) return <ProductGridSkeleton />;
 

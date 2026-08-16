@@ -1,30 +1,25 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
-import { SearchIcon } from "lucide-react";
-import InputGroup from "../../ui/InputGroup";
 import CartBtn from "./CartBtn";
 import ProfileBtn from "./ProfileBtn";
+import {
+  ProductSearch,
+  ProductSearchFallback,
+} from "@/features/filters/ProductSearch";
 
 const Navbar: React.FC = () => {
   return (
     <nav className="sticky top-0 bg-white z-20">
-      <div className="flex relative max-w-frame mx-auto items-center justify-between md:justify-start py-5 md:py-6 px-4 xl:px-0 gap-5">
+      <div className="relative mx-auto flex max-w-frame flex-wrap items-center justify-between gap-4 px-4 py-5 sm:flex-nowrap md:justify-start md:gap-5 md:py-6 xl:px-0">
         <div className="flex items-center">
           <Link href="/" className="text-2xl lg:text-[32px] mb-2">
             SHOP.CO
           </Link>
         </div>
 
-        <InputGroup className="hidden sm:flex bg-[#F0F0F0]">
-          <InputGroup.Text>
-            <SearchIcon size={20} />
-          </InputGroup.Text>
-          <InputGroup.Input
-            type="search"
-            name="search"
-            placeholder="Search for products..."
-          />
-        </InputGroup>
+        <Suspense fallback={<ProductSearchFallback />}>
+          <ProductSearch />
+        </Suspense>
 
         <div className="flex items-center">
           <CartBtn />

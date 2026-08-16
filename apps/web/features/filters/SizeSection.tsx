@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -9,26 +7,25 @@ import {
 } from "@/components/ui/Accordion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
+import type { Size } from "./api/facets";
 
-const SIZE_OPTIONS = [
-  "XX-Small",
-  "X-Small",
-  "Small",
-  "Medium",
-  "Large",
-  "X-Large",
-  "XX-Large",
-  "3X-Large",
-  "4X-Large",
-] as const;
+interface SizeSectionProps {
+  sizes: Size[];
+  selectedIds: string[];
+  isPending: boolean;
+  error?: Error;
+  onToggle: (id: string) => void;
+  onRetry: () => void;
+}
 
-const SizeSection: React.FC = () => {
-  const [selected, setSelected] = useState<string>("Large");
-
-  const handleSelectSize = (size: string) => {
-    setSelected(size);
-  };
-
+const SizeSection: React.FC<SizeSectionProps> = ({
+  sizes,
+  selectedIds,
+  isPending,
+  error,
+  onToggle,
+  onRetry,
+}) => {
   return (
     <Accordion type="single" collapsible defaultValue="filter-size">
       <AccordionItem value="filter-size" className="border-none">
@@ -36,22 +33,47 @@ const SizeSection: React.FC = () => {
           Size
         </AccordionTrigger>
         <AccordionContent className="pt-4 pb-0">
-          <div className="flex items-center flex-wrap gap-2">
-            {SIZE_OPTIONS.map((size, index) => (
+          {isPending ? (
+            <div className="flex flex-wrap gap-2" aria-label="Loading sizes">
+              {Array.from({ length: 9 }, (_, index) => (
+                <span
+                  key={index}
+                  className="h-9 w-20 animate-pulse rounded-full bg-black/10"
+                />
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-sm text-red-600" role="alert">
+              <p>{error.message}</p>
               <Button
-                key={index}
-                type="button"
-                variant={selected === size ? "default" : "outline"}
-                className={cn([
-                  "px-5 py-2.5",
-                  selected !== size && "bg-[#F0F0F0]",
-                ])}
-                onClick={() => handleSelectSize(size)}
+                variant="link"
+                className="mt-1 h-auto p-0"
+                onClick={onRetry}
               >
-                {size}
+                Try again
               </Button>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div className="flex flex-wrap items-center gap-2">
+              {sizes.map((size) => (
+                <Button
+                  key={size.id}
+                  type="button"
+                  aria-pressed={selectedIds.includes(size.id)}
+                  variant={
+                    selectedIds.includes(size.id) ? "default" : "outline"
+                  }
+                  className={cn(
+                    "px-5 py-2.5",
+                    !selectedIds.includes(size.id) && "bg-[#F0F0F0]",
+                  )}
+                  onClick={() => onToggle(size.id)}
+                >
+                  {size.name}
+                </Button>
+              ))}
+            </div>
+          )}
         </AccordionContent>
       </AccordionItem>
     </Accordion>
