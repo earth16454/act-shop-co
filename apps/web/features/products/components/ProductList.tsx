@@ -1,27 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
-import { infiniteProductsQueryOptions } from "../api/products";
+import React from "react";
+import { useProducts } from "../hooks/useProducts";
 import { ProductGridSkeleton } from "./ProductGridSkeleton";
 import { ProductGrid } from "./ProductGrid";
 import { ErrorAlert } from "@/components/ui/ErrorAlert";
 import { NotFoundAlert } from "@/components/ui/NotFoundAlert";
 
 export const ProductList: React.FC = () => {
-  const productsQuery = useInfiniteQuery(infiniteProductsQueryOptions());
-  const { fetchNextPage, hasNextPage, isFetchingNextPage } = productsQuery;
-  const { ref: loadMoreRef, inView } = useInView({
-    rootMargin: "400px 0px",
-    skip: !hasNextPage,
-  });
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      void fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const { products, productsQuery, loadMoreRef } = useProducts();
 
   if (productsQuery.isPending) return <ProductGridSkeleton />;
 
@@ -35,8 +22,6 @@ export const ProductList: React.FC = () => {
       />
     );
   }
-
-  const products = productsQuery.data.pages.flatMap((page) => page.items);
 
   if (products.length === 0) {
     return (
