@@ -1,18 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 
 import { ProductCartControl } from "@/features/cart/components/ProductCartControl";
 import { useCart } from "@/features/cart/hooks/useCart";
-import type { Product } from "../api/products";
 import { ProductCard } from "./ProductCard";
+import type { Product } from "../api/products";
 
 interface ProductGridProps {
   products: Product[];
 }
 
 export const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
-  const { data: cart } = useCart();
+  const cartQuery = useCart();
+
+  const cartItemsByProductId = useMemo(() => {
+    return new Map(
+      cartQuery.data?.items.map((item) => [item.productId, item]) ?? [],
+    );
+  }, [cartQuery.data?.items]);
+
+  const isCartUnavailable =
+    cartQuery.isPending || (cartQuery.isError && cartQuery.data === undefined);
 
   return (
     <div className="grid w-full grid-cols-1 gap-4 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
@@ -25,9 +34,8 @@ export const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
             <ProductCartControl
               productId={product.id}
               productName={product.name}
-              item={cart?.items.find(
-                (cartItem) => cartItem.productId === product.id,
-              )}
+              item={cartItemsByProductId.get(product.id)}
+              disabled={isCartUnavailable}
             />
           }
         />

@@ -13,6 +13,7 @@ interface ProductCartControlProps {
   productId: string;
   productName: string;
   item?: CartItem;
+  disabled?: boolean;
 }
 
 const iconButtonClassName =
@@ -22,12 +23,16 @@ export const ProductCartControl = ({
   productId,
   productName,
   item,
+  disabled = false,
 }: ProductCartControlProps) => {
   const addItem = useAddCartItem();
   const updateItem = useUpdateCartItem();
   const removeItem = useRemoveCartItem();
   const isPending =
-    addItem.isPending || updateItem.isPending || removeItem.isPending;
+    disabled ||
+    addItem.isPending ||
+    updateItem.isPending ||
+    removeItem.isPending;
   const error = addItem.error ?? updateItem.error ?? removeItem.error;
 
   const decreaseQuantity = () => {
