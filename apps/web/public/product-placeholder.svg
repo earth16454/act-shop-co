@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-labelledby="title description">
+  <title id="title">Product image unavailable</title>
+  <desc id="description">A simple clothes hanger placeholder</desc>
+  <rect width="600" height="800" fill="#f0f0f0"/>
+  <g fill="none" stroke="#a3a3a3" stroke-linecap="round" stroke-linejoin="round" stroke-width="18">
+    <path d="M275 292c0-36 50-36 50 0 0 24-25 30-25 55"/>
+    <path d="m300 347-170 126c-20 15-10 47 15 47h310c25 0 35-32 15-47L300 347Z"/>
+  </g>
+  <text x="300" y="590" fill="#737373" font-family="Arial, sans-serif" font-size="28" text-anchor="middle">Image unavailable</text>
+</svg>

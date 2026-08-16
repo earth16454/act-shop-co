@@ -11,13 +11,13 @@ interface ProductGridProps {
 export const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   return (
     <>
-      <div className="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-        {products.map((product) => (
+      <div className="grid w-full grid-cols-1 gap-4 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+        {products.map((product, index) => (
           <Link
             key={product.id}
             href={`/product/${product.id}/${product.name.split(" ").join("-")}`}
           >
-            <ProductCard product={product} />
+            <ProductCard product={product} priority={index === 0} />
           </Link>
         ))}
       </div>
