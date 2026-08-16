@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { MinusIcon, PlusIcon, Trash2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
@@ -42,12 +41,9 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex items-start justify-between gap-3">
             {product ? (
-              <Link
-                href={`/product/${product.id}/${product.name.split(" ").join("-")}`}
-                className="line-clamp-2 font-bold hover:underline sm:text-lg"
-              >
+              <h2 className="line-clamp-2 font-bold sm:text-lg">
                 {product.name}
-              </Link>
+              </h2>
             ) : (
               <h2 className="font-bold">Unavailable product</h2>
             )}

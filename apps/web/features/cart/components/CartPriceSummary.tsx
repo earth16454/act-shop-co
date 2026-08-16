@@ -1,4 +1,5 @@
 import type { CartSummary } from "../api/cart";
+import { CheckoutButton } from "./CheckoutButton";
 
 interface CartPriceSummaryProps {
   cart: CartSummary;
@@ -36,6 +37,8 @@ export const CartPriceSummary = ({ cart }: CartPriceSummaryProps) => {
         <span className="text-lg">Total</span>
         <strong className="text-2xl">{formatPrice(cart.total)}</strong>
       </div>
+
+      <CheckoutButton />
     </aside>
   );
 };

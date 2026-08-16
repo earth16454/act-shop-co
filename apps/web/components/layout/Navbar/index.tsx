@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
+
 import CartBtn from "./CartBtn";
 import ProfileBtn from "./ProfileBtn";
 import {
