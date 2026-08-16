@@ -12,6 +12,9 @@ const HomePage: React.FC = () => {
           <FilterBar />
 
           <div className="w-full">
+            <h1 className="mb-5 text-2xl font-bold tracking-tight sm:mb-6 sm:text-3xl">
+              Clothes
+            </h1>
             <ProductList />
           </div>
         </div>
