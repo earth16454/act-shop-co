@@ -1,11 +1,10 @@
 import type { CartSummary } from "../api/cart";
 import { CheckoutButton } from "./CheckoutButton";
+import { formatPrice } from "@/lib/utils";
 
 interface CartPriceSummaryProps {
   cart: CartSummary;
 }
-
-const formatPrice = (price: number) => `$${price.toLocaleString("en-US")}`;
 
 export const CartPriceSummary = ({ cart }: CartPriceSummaryProps) => {
   return (
