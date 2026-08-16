@@ -19,11 +19,11 @@ const HomePage = async ({ searchParams }: HomePageProps) => {
       <div className="max-w-frame mx-auto px-4 xl:px-0">
         <hr className="h-px border-t-black/10 mb-5 sm:mb-6" />
 
-        <div className="relative flex items-start md:space-x-5">
+        <div className="flex items-start md:space-x-5">
           <FilterBar appliedFilters={filters} />
 
           <div className="w-full">
-            <h1 className="mb-5 pr-12 text-2xl font-bold tracking-tight sm:mb-6 sm:text-3xl md:pr-0">
+            <h1 className="mb-5 text-2xl font-bold tracking-tight sm:mb-6 sm:text-3xl">
               Clothes
             </h1>
             <ProductList query={productsQuery} />
