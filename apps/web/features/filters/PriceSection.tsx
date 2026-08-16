@@ -6,8 +6,17 @@ import {
   AccordionTrigger,
 } from "@/components/ui/Accordion";
 import { Slider } from "@/components/ui/Slider";
+import {
+  MAX_PRODUCT_PRICE,
+  MIN_PRODUCT_PRICE,
+} from "./lib/product-filter-params";
 
-const PriceSection: React.FC = () => {
+interface PriceSectionProps {
+  value: [number, number];
+  onChange: (value: [number, number]) => void;
+}
+
+const PriceSection: React.FC<PriceSectionProps> = ({ value, onChange }) => {
   return (
     <Accordion type="single" collapsible defaultValue="filter-price">
       <AccordionItem value="filter-price" className="border-none">
@@ -16,11 +25,16 @@ const PriceSection: React.FC = () => {
         </AccordionTrigger>
         <AccordionContent className="pt-4" contentClassName="overflow-visible">
           <Slider
-            defaultValue={[50, 200]}
-            min={0}
-            max={250}
+            value={value}
+            min={MIN_PRODUCT_PRICE}
+            max={MAX_PRODUCT_PRICE}
             step={1}
             label="$"
+            onValueChange={(nextValue) => {
+              if (nextValue[0] !== undefined && nextValue[1] !== undefined) {
+                onChange([nextValue[0], nextValue[1]]);
+              }
+            }}
           />
           <div className="mb-3" />
         </AccordionContent>

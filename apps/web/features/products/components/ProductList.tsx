@@ -1,32 +1,34 @@
 "use client";
 
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { productsQueryOptions } from "../api/products";
+import { useProducts } from "../hooks/useProducts";
 import { ProductGridSkeleton } from "./ProductGridSkeleton";
 import { ProductGrid } from "./ProductGrid";
 import { ErrorAlert } from "@/components/ui/ErrorAlert";
 import { NotFoundAlert } from "@/components/ui/NotFoundAlert";
+import type { ProductsQuery } from "../api/products";
 
-export const ProductList: React.FC = () => {
-  const productsQuery = useQuery(productsQueryOptions());
+interface ProductListProps {
+  query: ProductsQuery;
+}
+
+export const ProductList: React.FC<ProductListProps> = ({ query }) => {
+  const { products, productsQuery, loadMoreRef } = useProducts(query);
 
   if (productsQuery.isPending) return <ProductGridSkeleton />;
 
-  if (productsQuery.isError) {
+  if (productsQuery.isError && productsQuery.data === undefined) {
     return (
       <ErrorAlert
         title="Products are unavailable"
-        description={
-          productsQuery.error ? productsQuery.error.message : "Unknown error"
-        }
+        description={productsQuery.error.message}
         onRetry={() => productsQuery.refetch()}
         isLoading={productsQuery.isFetching}
       />
     );
   }
 
-  if (productsQuery.data.items.length === 0) {
+  if (products.length === 0) {
     return (
       <NotFoundAlert
         title="No products found"
@@ -35,5 +37,33 @@ export const ProductList: React.FC = () => {
     );
   }
 
-  return <ProductGrid products={productsQuery.data.items} />;
+  return (
+    <>
+      <ProductGrid products={products} />
+
+      {productsQuery.isFetchNextPageError ? (
+        <div className="mt-8">
+          <ErrorAlert
+            title="More products couldn't be loaded"
+            description={productsQuery.error.message}
+            onRetry={() => productsQuery.fetchNextPage()}
+            isLoading={productsQuery.isFetchingNextPage}
+          />
+        </div>
+      ) : (
+        <>
+          <div ref={loadMoreRef} className="h-px" aria-hidden="true" />
+
+          {productsQuery.isFetchingNextPage ? (
+            <div
+              className="py-10 text-center text-sm text-black/60"
+              role="status"
+            >
+              Loading more products…
+            </div>
+          ) : null}
+        </>
+      )}
+    </>
+  );
 };

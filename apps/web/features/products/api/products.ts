@@ -1,4 +1,4 @@
-import { queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions } from "@tanstack/react-query";
 import type { Treaty } from "@elysiajs/eden";
 
 import { api } from "@/lib/eden";
@@ -16,7 +16,8 @@ export const DEFAULT_PRODUCTS_QUERY = {
 
 export const productKeys = {
   all: ["products"] as const,
-  list: (query: ProductsQuery) => [...productKeys.all, "list", query] as const,
+  infinite: (query: ProductsQuery) =>
+    [...productKeys.all, "infinite", query] as const,
 };
 
 const errorMessage = (value: unknown) => {
@@ -42,10 +43,13 @@ export const fetchProducts = async (
   return data;
 };
 
-export const productsQueryOptions = (
+export const infiniteProductsQueryOptions = (
   query: ProductsQuery = DEFAULT_PRODUCTS_QUERY,
 ) =>
-  queryOptions({
-    queryKey: productKeys.list(query),
-    queryFn: () => fetchProducts(query),
+  infiniteQueryOptions({
+    queryKey: productKeys.infinite(query),
+    initialPageParam: 0,
+    queryFn: ({ pageParam }) => fetchProducts({ ...query, offset: pageParam }),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasMore ? lastPage.offset + lastPage.items.length : undefined,
   });

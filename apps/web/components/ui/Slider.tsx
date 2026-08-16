@@ -26,15 +26,25 @@ const Slider = React.forwardRef<
       step = 1,
       defaultValue = [min, max],
       label,
+      value,
+      onValueChange,
       ...props
     },
     ref,
   ) => {
-    const [values, setValues] = React.useState<[number, number]>(defaultValue);
+    const [internalValues, setInternalValues] =
+      React.useState<[number, number]>(defaultValue);
+    const values: [number, number] =
+      value?.[0] !== undefined && value[1] !== undefined
+        ? [value[0], value[1]]
+        : internalValues;
 
     const handleValueChange = (newValues: number[]) => {
       if (newValues[0] !== undefined && newValues[1] !== undefined) {
-        setValues([newValues[0], newValues[1]]);
+        if (value === undefined) {
+          setInternalValues([newValues[0], newValues[1]]);
+        }
+        onValueChange?.(newValues);
       }
     };
 
@@ -67,7 +77,10 @@ const Slider = React.forwardRef<
             {label}
             {values[0]}
           </div>
-          <SliderPrimitive.Thumb className="relative block h-4 w-4 rounded-full border border-primary/50 bg-black shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
+          <SliderPrimitive.Thumb
+            aria-label="Minimum price"
+            className="relative block h-4 w-4 rounded-full border border-primary/50 bg-black shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          />
 
           {/* Thumb 2 with Label */}
           <div
@@ -79,7 +92,10 @@ const Slider = React.forwardRef<
             {label}
             {values[1]}
           </div>
-          <SliderPrimitive.Thumb className="relative block h-4 w-4 rounded-full border border-primary/50 bg-black shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
+          <SliderPrimitive.Thumb
+            aria-label="Maximum price"
+            className="relative block h-4 w-4 rounded-full border border-primary/50 bg-black shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          />
         </SliderPrimitive.Root>
       </div>
     );
